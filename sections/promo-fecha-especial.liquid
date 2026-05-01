@@ -1,0 +1,153 @@
+{% comment %} Sección: Promo Fecha Especial {% endcomment %}
+<style>
+  .promo-fecha {
+    display: flex;
+    height: 300px;
+    gap: 4px;
+  }
+  .promo-fecha__texto {
+    background: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    width: 25%;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .promo-fecha__titulo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0 0 12px;
+  }
+  .promo-fecha__desc {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    flex-grow: 1;
+    margin-bottom: 20px;
+  }
+  .promo-fecha__btn {
+    display: inline-block;
+    border: 2px solid {{ section.settings.text_color }};
+    color: {{ section.settings.text_color }};
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    width: fit-content;
+  }
+  .promo-fecha__btn:hover {
+    background: {{ section.settings.text_color }};
+    color: {{ section.settings.bg_color }};
+  }
+  .promo-fecha__productos {
+    display: flex;
+    flex: 1;
+    gap: 4px;
+  }
+  .promo-fecha__producto {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    background: #fff;
+    overflow: hidden;
+  }
+  .promo-fecha__producto-img {
+    flex: 1;
+    overflow: hidden;
+  }
+  .promo-fecha__producto-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+  .promo-fecha__producto:hover .promo-fecha__producto-img img {
+    transform: scale(1.04);
+  }
+  .promo-fecha__producto-nombre {
+    padding: 8px 12px;
+    background: #fff;
+    color: #111;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    border-top: 1px solid #eee;
+  }
+  .promo-fecha__producto-nombre .promo-fecha__pct {
+    color: #e00;
+    font-size: 0.75rem;
+    margin-right: 4px;
+  }
+  @media (max-width: 749px) {
+    .promo-fecha { flex-direction: column; height: auto; }
+    .promo-fecha__texto { width: 100%; }
+    .promo-fecha__productos { flex-direction: column; }
+    .promo-fecha__producto { height: 200px; }
+  }
+</style>
+
+<div class="promo-fecha">
+  <div class="promo-fecha__texto">
+    <div>
+      <p class="promo-fecha__titulo">{{ section.settings.titulo }}</p>
+      <p class="promo-fecha__desc">{{ section.settings.descripcion }}</p>
+    </div>
+    <a href="{{ section.settings.boton_url }}" class="promo-fecha__btn">
+      {{ section.settings.boton_texto }}
+    </a>
+  </div>
+  <div class="promo-fecha__productos">
+    {% for block in section.blocks %}
+      {% assign prod = all_products[block.settings.producto] %}
+      {% if prod != blank %}
+        <a href="{{ prod.url }}" class="promo-fecha__producto" {{ block.shopify_attributes }}>
+          <div class="promo-fecha__producto-img">
+            {% if prod.featured_image %}
+              <img src="{{ prod.featured_image | image_url: width: 600 }}" alt="{{ prod.title }}" loading="lazy">
+            {% endif %}
+          </div>
+          <div class="promo-fecha__producto-nombre">
+            {% if block.settings.etiqueta != blank %}
+              <span class="promo-fecha__pct">%</span>{{ block.settings.etiqueta }}
+            {% else %}
+              {{ prod.title }}
+            {% endif %}
+          </div>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Promo Fecha Especial",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "titulo", "label": "Título", "default": "🌸 DÍA DE LAS MADRES" },
+    { "type": "textarea", "id": "descripcion", "label": "Descripción", "default": "Hasta 30% OFF para mamá. ¡Encuentra el regalo perfecto!" },
+    { "type": "text", "id": "boton_texto", "label": "Texto del botón", "default": "VER TODO" },
+    { "type": "url", "id": "boton_url", "label": "Enlace del botón" },
+    { "type": "color", "id": "bg_color", "label": "Color de fondo", "default": "#000000" },
+    { "type": "color", "id": "text_color", "label": "Color de texto", "default": "#ffffff" }
+  ],
+  "blocks": [
+    {
+      "type": "producto",
+      "name": "Producto",
+      "settings": [
+        { "type": "product", "id": "producto", "label": "Producto" },
+        { "type": "text", "id": "etiqueta", "label": "Etiqueta (opcional)", "info": "Texto debajo de la imagen. Si se deja vacío, usa el nombre del producto." }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [{ "name": "Promo Fecha Especial" }]
+}
+{% endschema %}

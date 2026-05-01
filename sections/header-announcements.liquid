@@ -7,9 +7,9 @@
   ></script>
 {% endif %}
 
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<div class="section-background temu-announcement-gradient"></div>
 <aside
-  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
+  class="announcement-bar spacing-style section section--{{ section.settings.section_width }} temu-announcement-bar"
   style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;"
 >
   {% liquid
@@ -38,6 +38,50 @@
 </aside>
 
 {% stylesheet %}
+  /* TEMU STYLE ANNOUNCEMENT BAR */
+  .temu-announcement-gradient {
+    background: linear-gradient(135deg, #FF6B35 0%, #FF4444 50%, #FF6B9D 100%) !important;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .temu-announcement-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: temu-shimmer 3s infinite;
+  }
+  
+  @keyframes temu-shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  
+  .temu-announcement-bar {
+    background: linear-gradient(135deg, #FF6B35 0%, #FF4444 50%, #FF6B9D 100%) !important;
+    color: #FFFFFF !important;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .temu-announcement-bar .announcement-bar__text,
+  .temu-announcement-bar .announcement-bar__slide,
+  .temu-announcement-bar a,
+  .temu-announcement-bar p,
+  .temu-announcement-bar span {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  }
+  
+  .temu-announcement-bar .slideshow-control {
+    color: #FFFFFF !important;
+  }
+  
   .announcement-bar {
     border-block-end: var(--border-bottom-width) solid var(--color-border);
   }

@@ -40,6 +40,7 @@
     {% # theme-check-enable RemoteAsset %}
   
 {{ 'a2reviews-custom.css' | asset_url | stylesheet_tag }}
+{{ 'temu-styles.css' | asset_url | stylesheet_tag }}
 <style>
   /* Ocultar selector de cantidad SOLO en página de producto */
   .product-form__quantity {
@@ -53,17 +54,6 @@
   .rsi-product-item-wrapper .quantity-selector-wrapper,
   .rsi-product-details-column .quantity-selector-wrapper {
     display: block !important;
-  }
-
-  /* Barra de anuncios: fondo negro, letras blancas */
-  #shopify-section-sections--21447540441312__header_announcements_9jGBFp {
-    background-color: #000000 !important;
-    color: #ffffff !important;
-  }
-  #shopify-section-sections--21447540441312__header_announcements_9jGBFp a,
-  #shopify-section-sections--21447540441312__header_announcements_9jGBFp p,
-  #shopify-section-sections--21447540441312__header_announcements_9jGBFp span {
-    color: #ffffff !important;
   }
 </style>
 </head>
